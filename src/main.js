@@ -14,12 +14,14 @@ var elements = require("./elements");
 var presets = require("./presets");
 var mimetypes = require("./mimetypes");
 
+
 window.onerror = function(e, url, line) {
     var error = document.getElementById("error");
     error.style.display = "block";
     var error = document.getElementById("error-text");
-    error.innerHTML = "Sorry, an error has occurred:<br><br>Line #" + line + ": " + e;
+    error.innerHTML = "Sorry, an error happened:<br><br>Line #" + line + ": " + e;
 }
+
 
 kb.active = function(key) {
     var keys = kb.activeKeys();

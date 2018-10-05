@@ -2,11 +2,11 @@
 
 var glm = require('./gl-matrix');
 var webgl = require('./webgl.js');
-var fs = require('fs');
 var cube = require("./cube");
 var elements = require("./elements");
 var View = require("./view");
 var System = require("./system");
+var shaders = require("./shaders");
 
 module.exports = function (canvas, resolution, aoResolution) {
 
@@ -80,13 +80,13 @@ module.exports = function (canvas, resolution, aoResolution) {
             self.createTextures();
 
             // Initialize shaders.
-            progAtoms = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/atoms.glsl", 'utf8'));
-            progBonds = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/bonds.glsl", 'utf8'));
-            progDisplayQuad = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/textured-quad.glsl", 'utf8'));
-            progAccumulator = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/accumulator.glsl", 'utf8'));
-            progAO = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/ao.glsl", 'utf8'));
-            progFXAA = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/fxaa.glsl", 'utf8'));
-            progDOF = loadProgram(gl, fs.readFileSync(__dirname + "/shaders/dof.glsl", 'utf8'));
+            progAtoms = loadProgram(gl, shaders['atom']);
+            progBonds = loadProgram(gl, shaders['bond']);
+            progDisplayQuad = loadProgram(gl, shaders['textured-quad']);
+            progAccumulator = loadProgram(gl, shaders['accumulator']);
+            progAO = loadProgram(gl, shaders['ao']);
+            progFXAA = loadProgram(gl, shaders['fsaa']);
+            progDOF = loadProgram(gl, shaders['dof']);
 
             var position = [
                 -1, -1, 0,
