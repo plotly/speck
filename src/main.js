@@ -1,6 +1,5 @@
 "use strict";
 
-var fs = require("fs");
 var kb = require("keyboardjs");
 var lz = require("lz-string");
 var $ = require("jquery");
@@ -9,6 +8,7 @@ var Renderer = require("./renderer");
 var View = require("./view");
 var System = require("./system");
 var xyz = require("./xyz");
+var shaders = require("./shaders");
 var samples = require("./samples");
 var elements = require("./elements");
 var presets = require("./presets");

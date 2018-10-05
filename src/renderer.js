@@ -80,13 +80,13 @@ module.exports = function (canvas, resolution, aoResolution) {
             self.createTextures();
 
             // Initialize shaders.
-            progAtoms = loadProgram(gl, shaders['atom']);
-            progBonds = loadProgram(gl, shaders['bond']);
-            progDisplayQuad = loadProgram(gl, shaders['textured-quad']);
-            progAccumulator = loadProgram(gl, shaders['accumulator']);
-            progAO = loadProgram(gl, shaders['ao']);
-            progFXAA = loadProgram(gl, shaders['fsaa']);
-            progDOF = loadProgram(gl, shaders['dof']);
+            progAtoms = loadProgram(gl, shaders.shaders['atom']);
+            progBonds = loadProgram(gl, shaders.shaders['bond']);
+            progDisplayQuad = loadProgram(gl, shaders.shaders['textured-quad']);
+            progAccumulator = loadProgram(gl, shaders.shaders['accumulator']);
+            progAO = loadProgram(gl, shaders.shaders['ao']);
+            progFXAA = loadProgram(gl, shaders.shaders['fxaa']);
+            progDOF = loadProgram(gl, shaders.shaders['dof']);
 
             var position = [
                 -1, -1, 0,
