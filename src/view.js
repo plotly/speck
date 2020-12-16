@@ -31,7 +31,7 @@ var newView = module.exports.new = function() {
         bondThreshold: 1.2,
         bondShade: 0.5,
         atomShade: 0.5,
-        resolution: 768,
+        resolution: {x:768,y:768},
         dofStrength: 0.0,
         dofPosition: 0.5,
         fxaa: 1
@@ -57,9 +57,12 @@ var center = module.exports.center = function(v, system) {
     }
     var cx = minX + (maxX - minX) / 2.0;
     var cy = minY + (maxY - minY) / 2.0;
+    let mres = Math.max(v.resolution.x,v.resolution.y)
+    cx += (maxX - minX) * (1-v.resolution.x/mres);
+    cy += (maxY - minY) * (1-v.resolution.y/mres);
     v.translation.x = cx;
     v.translation.y = cy;
-    var scale = Math.max(maxX - minX, maxY - minY);
+    var scale = Math.max((maxX - minX)*(mres/v.resolution.x), (maxY - minY)*(mres/v.resolution.y));
     v.zoom = 1/(scale * 1.01);
 };
 
@@ -105,8 +108,8 @@ var resolve = module.exports.resolve = function(v) {
 
 
 var translate = module.exports.translate = function(v, dx, dy) {
-    v.translation.x -= dx/(v.resolution * v.zoom);
-    v.translation.y += dy/(v.resolution * v.zoom);
+    v.translation.x -= dx/(v.resolution.x * v.zoom);
+    v.translation.y += dy/(v.resolution.y * v.zoom);
     resolve(v);
 };
 
@@ -116,8 +119,8 @@ var rotate = module.exports.rotate = function(v, dx, dy) {
     glm.mat4.rotateY(m, m, dx * 0.005);
     glm.mat4.rotateX(m, m, dy * 0.005);
     glm.mat4.multiply(v.rotation, m, v.rotation);
-    const ao = v.ao; 
-    v.ao = 0; 
+    const ao = v.ao;
+    v.ao = 0;
     resolve(v);
     v.ao = ao;
 };
@@ -140,8 +143,6 @@ var getRect = module.exports.getRect = function(v) {
 
 
 var getBondRadius = module.exports.getBondRadius = function(v) {
-    return v.bondScale * v.atomScale * 
+    return v.bondScale * v.atomScale *
         (1 + (consts.MIN_ATOM_RADIUS - 1) * v.relativeAtomScale);
 };
-
-

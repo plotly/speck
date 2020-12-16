@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html style='height:100%'>
+<head>
+<meta charset='UTF-8'/>
+<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width'/>
+<title>Bandstructures Lab</title>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'></script>
+
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'/>
+<script type='text/javascript'>
+
+</script>
+</head>
+  <body style='padding:0;margin:0;height:100%'>
+    <div id='root' style='height:100%'></div>
+<script type='text/javascript'>
+    //https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix.js
+requirejs.config({
+    paths: {
+        'react': 'https://unpkg.com/react@16.8.6/umd/react.development',
+        'react-dom': 'https://unpkg.com/react-dom@16.8.6/umd/react-dom.development',
+        'material-ui': 'https://unpkg.com/@material-ui/core@latest/umd/material-ui.development',
+        'plotlycomponent': 'https://unpkg.com/react-plotly.js@2.3/dist/create-plotly-component',
+        'plotly': 'https://cdn.plot.ly/plotly-latest.min',
+        'math': 'https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.6.1/math.min',
+        'axios': 'https://unpkg.com/axios/dist/axios.min',
+        'localforage' : 'https://www.unpkg.com/localforage@1.7.3/dist/localforage.min',
+        'number-format': 'https://unpkg.com/react-number-format@4.3.1/dist/react-number-format',
+        'prop-types': 'https://unpkg.com/prop-types@15.6/prop-types.min',
+        'bundle': './static/bundle',
+    }
+});
+requirejs(['react', 'react-dom'], function(React, ReactDOM) {
+  window.React = React
+  let _react = React
+  requirejs(['material-ui', 'axios', 'localforage', 'prop-types'], function(Material, Axios, LocalForage, PropTypes) {
+    _react.PropTypes = PropTypes
+    requirejs(['plotlycomponent', 'plotly', 'math', 'number-format'], function(PlotlyComponent, Plotly, math, Format) {
+      window.React = React
+      const Plot = PlotlyComponent.default(Plotly);
+      requirejs(['bundle'], function(Bundle) {
+        class Speck extends React.Component {
+          constructor(props) {
+            super(props);
+            this.container = React.createRef()
+            this.canvas = React.createRef()
+            this.system = Bundle.speckSystem.new();
+            this.view = Bundle.speckView.new();
+            this.view.resolution.x = 200;
+            this.view.resolution.y = 200;
+            this.view.bonds = true,
+            this.view.atomScale= 0.35,
+            this.renderer = null;
+            this.needReset = false;
+            this.state = {
+              aspect: this.view.aspect,
+              zoom: this.view.zoom,
+              translation: this.view.translation,
+              atomScale: this.view.atomScale,
+              relativeAtomScale: this.view.relativeAtomScale,
+              bondScale: this.view.bondScale,
+              rotation: this.view.rotation,
+              ao: this.view.ao,
+              aoRes: this.view.aoRes,
+              brightness: this.view.brightness,
+              outline: this.view.outline,
+              spf: this.view.spf,
+              bonds: this.view.bonds,
+              bondThreshold: this.view.bondThreshold,
+              bondShade: this.view.bondShade,
+              atomShade: this.view.atomShade,
+              resolution: this.view.resolution,
+              dofStrength: this.view.dofStrength,
+              dofPosition: this.view.dofPosition,
+              fxaa: this.view.fxaa,
+              data: "46\ntestosterone.out\nC     -4.0599     -2.1760     -0.8224\nO     -4.9516     -2.8840     -1.2414\nC     -4.2163     -0.6676     -0.7586\nC     -2.8826      0.0343     -0.9993\nC     -2.7857     -2.7158     -0.3131\nC     -1.7443     -1.9501      0.0575\nC     -0.5249     -2.5861      0.6659\nC      0.7827     -1.9356      0.2082\nC      0.7295     -0.4182      0.4294\nC      2.0267      0.2733     -0.0072\nC      3.3706     -0.1900      0.5799\nC      4.3192      1.0027      0.3273\nC      3.4317      2.2202     -0.0268\nO      3.9384      3.3043      0.7679\nC      1.9714      1.7980      0.3340\nC      1.7106      2.0852      1.8182\nC      0.8686      2.4201     -0.5385\nC     -0.4798      1.7315     -0.2601\nC     -0.4282      0.1930     -0.4091\nC     -1.7900     -0.4363     -0.0132\nH     -2.7575     -3.8052     -0.2565\nH     -0.6135     -2.5201      1.7733\nH     -0.4925     -3.6738      0.4451\nH      1.6336     -2.3732      0.7646\nH      0.9690     -2.1675     -0.8583\nH      0.5479     -0.2168      1.5138\nH      2.1058      0.1678     -1.1210\nH      3.2853     -0.4094      1.6573\nH      3.7364     -1.1101      0.0994\nH      4.9267      1.2382      1.2217\nH      5.0342      0.7890     -0.4822\nH      3.5293      2.5237     -1.0880\nH      3.2906      4.0296      0.8195\nH      0.8832      1.4797      2.2078\nH      2.5972      1.8604      2.4268\nH      1.4613      3.1361      1.9910\nH      0.7818      3.5044     -0.3452\nH      1.1247      2.3262     -1.6107\nH     -0.8205      1.9959      0.7596\nH     -1.2411      2.1442     -0.9502\nH     -0.2361     -0.0466     -1.4843\nH     -4.6390     -0.3984      0.2304\nH     -4.9734     -0.3373     -1.4982\nH     -2.5493     -0.1544     -2.0405\nH     -3.0184      1.1303     -0.9178\nH     -2.0604     -0.0823      1.0166\n"
+            }
+          }
+
+          loadStructure(data) {
+              this.system = Bundle.speckSystem.new();
+              for (var i = 0; i < data.length; i++) {
+                  var a = data[i];
+                  var x = a.position[0];
+                  var y = a.position[1];
+                  var z = a.position[2];
+                  Bundle.speckSystem.addAtom(this.system, a.symbol, x,y,z);
+              }
+              Bundle.speckSystem.center(this.system);
+              Bundle.speckSystem.calculateBonds(this.system);
+              this.renderer.setSystem(this.system, this.view);
+              Bundle.speckView.center(this.view, this.system);
+              this.needReset = true;
+          }
+
+          xyz(data) {
+            var lines = data.split('\n');
+            var natoms = parseInt(lines[0]);
+            var nframes = Math.floor(lines.length/(natoms+2));
+            var trajectory = []
+            for(var i = 0; i < nframes; i++) {
+                var atoms = [];
+                for(var j = 0; j < natoms; j++) {
+                    var line = lines[i*(natoms+2)+j+2].split(/\s+/);
+                    var atom = {};
+                    var k = 0;
+                    while (line[k] == "") k++;
+                    atom.symbol = line[k++];
+                    atom.position = [parseFloat(line[k++]), parseFloat(line[k++]), parseFloat(line[k++])];
+                    atoms.push(atom);
+                }
+                trajectory.push(atoms);
+            }
+            return trajectory;
+          }
+
+          reflow() {
+              let self = this;
+              var ww = self.container.current.parentElement.clientWidth;
+              var wh = self.container.current.parentElement.clientHeight;
+              if (self.view.resolution.x == ww && self.view.resolution.y == wh)
+                return;
+              self.container.current.style.height = wh + "px";
+              self.container.current.style.width = ww + "px";
+              self.container.current.style.left = 0 + "px";
+              self.container.current.style.top = 0 + "px";
+              self.view.resolution.x=ww;
+              self.view.resolution.y=wh;
+              self.renderer = new Bundle.speckRenderer(self.canvas.current, self.view.resolution, self.view.aoRes);
+              self.loadStructure(this.xyz(self.state.data)[0]);
+          }
+
+          loop() {
+             let self = this;
+             if (self.needReset) {
+                  self.renderer.reset();
+                  self.needReset = false;
+              }
+              self.renderer.render(self.view);
+              requestAnimationFrame(function(){self.loop()});
+          }
+
+          componentDidMount(){
+              let self = this;
+              self.reflow()
+              window.addEventListener("resize", function(){self.reflow()});
+              this.loop();
+              Bundle.speckInteractions({
+                container : self.container.current,
+                scrollZoom : true,
+                getRotation : function (){return self.view.rotation},
+                setRotation : function (t){self.view.rotation = t},
+                getTranslation : function (){return self.view.translation},
+                setTranslation : function ( t ){self.view.translation=t},
+                getZoom : function (){return self.view.zoom},
+                setZoom : function (t ){self.view.zoom=t},
+                refreshView : function(){self.needReset=true;}
+              })
+          }
+
+          render() {
+            return React.createElement("div", {ref:this.container, key:'container'},[
+              React.createElement("canvas", {ref:this.canvas, key:'canvas'})
+            ])
+          }
+        }
+
+        ReactDOM.render(
+              React.createElement(Speck, {}),
+              document.getElementById('root')
+        );
+      });
+    });
+  });
+})
+</script>
+</html>

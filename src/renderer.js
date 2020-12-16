@@ -9,14 +9,14 @@ var System = require("./system");
 var shaders = require("./shaders");
 
 module.exports = function (canvas, resolution, aoResolution) {
-
+        let m_resolution = Math.max(resolution.x, resolution.y)
         var self = this;
 
         var range,
             samples,
             system;
 
-        var gl, 
+        var gl,
             canvas;
 
         var rAtoms = null,
@@ -62,19 +62,20 @@ module.exports = function (canvas, resolution, aoResolution) {
         self.initialize = function() {
 
             // Initialize canvas/gl.
-            canvas.width = canvas.height = resolution;
+            canvas.width = resolution.x;
+            canvas.height = resolution.y;
             gl = canvas.getContext('webgl');
             gl.enable(gl.DEPTH_TEST);
             gl.enable(gl.CULL_FACE);
             gl.clearColor(0,0,0,0);
             gl.clearDepth(1);
-            gl.viewport(0,0,resolution,resolution);
+            gl.viewport(0,0,m_resolution,m_resolution);
 
             window.gl = gl; //debug
 
             ext = webgl.getExtensions(gl, [
-                "EXT_frag_depth", 
-                "WEBGL_depth_texture", 
+                "EXT_frag_depth",
+                "WEBGL_depth_texture",
             ]);
 
             self.createTextures();
@@ -125,11 +126,11 @@ module.exports = function (canvas, resolution, aoResolution) {
             fbRandRot = new webgl.Framebuffer(gl, [tRandRotColor], tRandRotDepth);
 
             // fbScene
-            tSceneColor = new webgl.Texture(gl, 2, null, resolution, resolution);
+            tSceneColor = new webgl.Texture(gl, 2, null, m_resolution, m_resolution);
 
-            tSceneNormal = new webgl.Texture(gl, 3, null, resolution, resolution);
+            tSceneNormal = new webgl.Texture(gl, 3, null, m_resolution, m_resolution);
 
-            tSceneDepth = new webgl.Texture(gl, 4, null, resolution, resolution, {
+            tSceneDepth = new webgl.Texture(gl, 4, null, m_resolution, m_resolution, {
                 internalFormat: gl.DEPTH_COMPONENT,
                 format: gl.DEPTH_COMPONENT,
                 type: gl.UNSIGNED_SHORT
@@ -140,29 +141,30 @@ module.exports = function (canvas, resolution, aoResolution) {
             fbSceneNormal = new webgl.Framebuffer(gl, [tSceneNormal], tSceneDepth);
 
             // fbAccumulator
-            tAccumulator = new webgl.Texture(gl, 5, null, resolution, resolution);
-            tAccumulatorOut = new webgl.Texture(gl, 6, null, resolution, resolution);
+            tAccumulator = new webgl.Texture(gl, 5, null, m_resolution, m_resolution);
+            tAccumulatorOut = new webgl.Texture(gl, 6, null, m_resolution, m_resolution);
             fbAccumulator = new webgl.Framebuffer(gl, [tAccumulatorOut]);
 
             // fbAO
-            tAO = new webgl.Texture(gl, 7, null, resolution, resolution);
+            tAO = new webgl.Texture(gl, 7, null, m_resolution, m_resolution);
             fbAO = new webgl.Framebuffer(gl, [tAO]);
 
             // fbFXAA
-            tFXAA = new webgl.Texture(gl, 8, null, resolution, resolution);
-            tFXAAOut = new webgl.Texture(gl, 9, null, resolution, resolution);
+            tFXAA = new webgl.Texture(gl, 8, null, m_resolution, m_resolution);
+            tFXAAOut = new webgl.Texture(gl, 9, null, m_resolution, m_resolution);
             fbFXAA = new webgl.Framebuffer(gl, [tFXAAOut]);
 
             // fbDOF
-            tDOF = new webgl.Texture(gl, 10, null, resolution, resolution);
+            tDOF = new webgl.Texture(gl, 10, null, m_resolution, m_resolution);
             fbDOF = new webgl.Framebuffer(gl, [tDOF]);
         }
 
         self.setResolution = function(res, aoRes) {
             aoResolution = aoRes;
             resolution = res;
-            canvas.width = canvas.height = resolution;
-            gl.viewport(0,0,resolution,resolution);
+            canvas.width = resolution.x;
+            canvas.height = resolution.y;
+            gl.viewport(0,0,m_resolution,m_resolution);
             self.createTextures();
         }
 
@@ -299,7 +301,7 @@ module.exports = function (canvas, resolution, aoResolution) {
 
         function color(view) {
             colorRendered = true;
-            gl.viewport(0, 0, resolution, resolution);
+            gl.viewport(0, 0, m_resolution, m_resolution);
             fbSceneColor.bind();
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             var rect = View.getRect(view);
@@ -317,7 +319,7 @@ module.exports = function (canvas, resolution, aoResolution) {
             progAtoms.setUniform("uTopRight", "2fv", [rect.right, rect.top]);
             progAtoms.setUniform("uAtomScale", "1f", 2.5 * view.atomScale);
             progAtoms.setUniform("uRelativeAtomScale", "1f", view.relativeAtomScale);
-            progAtoms.setUniform("uRes", "1f", resolution);
+            progAtoms.setUniform("uRes", "1f", m_resolution);
             progAtoms.setUniform("uDepth", "1f", range);
             progAtoms.setUniform("uMode", "1i", 0);
             progAtoms.setUniform("uAtomShade", "1f", view.atomShade);
@@ -332,7 +334,7 @@ module.exports = function (canvas, resolution, aoResolution) {
                 progBonds.setUniform("uDepth", "1f", range);
                 progBonds.setUniform("uBottomLeft", "2fv", [rect.left, rect.bottom]);
                 progBonds.setUniform("uTopRight", "2fv", [rect.right, rect.top]);
-                progBonds.setUniform("uRes", "1f", resolution);
+                progBonds.setUniform("uRes", "1f", m_resolution);
                 progBonds.setUniform("uBondRadius", "1f", 2.5 * View.getBondRadius(view));
                 progBonds.setUniform("uBondShade", "1f", view.bondShade);
                 progBonds.setUniform("uAtomScale", "1f", 2.5 * view.atomScale);
@@ -345,7 +347,7 @@ module.exports = function (canvas, resolution, aoResolution) {
 
         function normal(view) {
             normalRendered = true;
-            gl.viewport(0, 0, resolution, resolution);
+            gl.viewport(0, 0, m_resolution, m_resolution);
             fbSceneNormal.bind();
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             var rect = View.getRect(view);
@@ -363,7 +365,7 @@ module.exports = function (canvas, resolution, aoResolution) {
             progAtoms.setUniform("uTopRight", "2fv", [rect.right, rect.top]);
             progAtoms.setUniform("uAtomScale", "1f", 2.5 * view.atomScale);
             progAtoms.setUniform("uRelativeAtomScale", "1f", view.relativeAtomScale);
-            progAtoms.setUniform("uRes", "1f", resolution);
+            progAtoms.setUniform("uRes", "1f", m_resolution);
             progAtoms.setUniform("uDepth", "1f", range);
             progAtoms.setUniform("uMode", "1i", 1);
             progAtoms.setUniform("uAtomShade", "1f", view.atomShade);
@@ -378,7 +380,7 @@ module.exports = function (canvas, resolution, aoResolution) {
                 progBonds.setUniform("uDepth", "1f", range);
                 progBonds.setUniform("uBottomLeft", "2fv", [rect.left, rect.bottom]);
                 progBonds.setUniform("uTopRight", "2fv", [rect.right, rect.top]);
-                progBonds.setUniform("uRes", "1f", resolution);
+                progBonds.setUniform("uRes", "1f", m_resolution);
                 progBonds.setUniform("uBondRadius", "1f", 2.5 * View.getBondRadius(view));
                 progBonds.setUniform("uBondShade", "1f", view.bondShade);
                 progBonds.setUniform("uAtomScale", "1f", 2.5 * view.atomScale);
@@ -441,7 +443,7 @@ module.exports = function (canvas, resolution, aoResolution) {
                 rBonds.render();
             }
 
-            gl.viewport(0, 0, resolution, resolution);
+            gl.viewport(0, 0, m_resolution, m_resolution);
             var sceneRect = View.getRect(view);
             var rotRect = View.getRect(v);
             var invRot = glm.mat4.invert(glm.mat4.create(), rot);
@@ -455,7 +457,7 @@ module.exports = function (canvas, resolution, aoResolution) {
             progAccumulator.setUniform("uSceneTopRight", "2fv", [sceneRect.right, sceneRect.top]);
             progAccumulator.setUniform("uRotBottomLeft", "2fv", [rotRect.left, rotRect.bottom]);
             progAccumulator.setUniform("uRotTopRight", "2fv", [rotRect.right, rotRect.top]);
-            progAccumulator.setUniform("uRes", "1f", resolution);
+            progAccumulator.setUniform("uRes", "1f", m_resolution);
             progAccumulator.setUniform("uDepth", "1f", range);
             progAccumulator.setUniform("uRot", "Matrix4fv", false, rot);
             progAccumulator.setUniform("uInvRot", "Matrix4fv", false, invRot);
@@ -463,11 +465,11 @@ module.exports = function (canvas, resolution, aoResolution) {
             rAccumulator.render();
             tAccumulator.activate();
             tAccumulator.bind();
-            gl.copyTexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 0, 0, resolution, resolution, 0);
+            gl.copyTexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 0, 0, m_resolution, m_resolution, 0);
         }
 
         function display(view) {
-            gl.viewport(0, 0, resolution, resolution);
+            gl.viewport(0, 0, m_resolution, m_resolution);
             if (view.fxaa > 0 || view.dofStrength > 0) {
                 fbAO.bind();
             } else {
@@ -477,7 +479,7 @@ module.exports = function (canvas, resolution, aoResolution) {
             progAO.setUniform("uSceneColor", "1i", tSceneColor.index);
             progAO.setUniform("uSceneDepth", "1i", tSceneDepth.index);
             progAO.setUniform("uAccumulatorOut", "1i", tAccumulatorOut.index);
-            progAO.setUniform("uRes", "1f", resolution);
+            progAO.setUniform("uRes", "1f", m_resolution);
             progAO.setUniform("uAO", "1f", 2.0 * view.ao);
             progAO.setUniform("uBrightness", "1f", 2.0 * view.brightness);
             progAO.setUniform("uOutlineStrength", "1f", view.outline);
@@ -496,11 +498,11 @@ module.exports = function (canvas, resolution, aoResolution) {
                     } else {
                         progFXAA.setUniform("uTexture", "1i", tFXAA.index);
                     }
-                    progFXAA.setUniform("uRes", "1f", resolution);
+                    progFXAA.setUniform("uRes", "1f", m_resolution);
                     rFXAA.render();
                     tFXAA.activate();
                     tFXAA.bind();
-                    gl.copyTexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 0, 0, resolution, resolution, 0);
+                    gl.copyTexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 0, 0, m_resolution, m_resolution, 0);
                 }
             }
 
@@ -515,7 +517,7 @@ module.exports = function (canvas, resolution, aoResolution) {
                 progDOF.setUniform("uDepth", "1i", tSceneDepth.index);
                 progDOF.setUniform("uDOFPosition", "1f", view.dofPosition);
                 progDOF.setUniform("uDOFStrength", "1f", view.dofStrength);
-                progDOF.setUniform("uRes", "1f", resolution);
+                progDOF.setUniform("uRes", "1f", m_resolution);
                 rDOF.render();
             }
 
@@ -523,7 +525,7 @@ module.exports = function (canvas, resolution, aoResolution) {
             // gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             // progDisplayQuad.setUniform("uTexture", "1i", tSceneColor.index);
-            // progDisplayQuad.setUniform("uRes", "1f", resolution);
+            // progDisplayQuad.setUniform("uRes", "1f", m_resolution);
             // rDispQuad.render();
         }
 

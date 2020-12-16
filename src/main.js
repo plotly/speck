@@ -362,7 +362,10 @@ window.onload = function() {
     });
 
     document.getElementById("resolution").addEventListener("change", function(e) {
-        var resolution = parseInt(document.getElementById("resolution").value);
+        var resolution = resolution = {
+          x:parseInt(document.getElementById("resolution").value),
+          y:parseInt(document.getElementById("resolution").value)
+        };
         view.resolution = resolution;
         View.resolve(view);
         renderer.setResolution(resolution, view.aoRes);
