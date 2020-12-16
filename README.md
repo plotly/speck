@@ -56,3 +56,12 @@ Speck goes to great lengths to decouple rendering options, so that you have the 
   <img src="https://raw.githubusercontent.com/wwwtyro/speck/gh-pages/static/screenshots/demo-8.png">
 </p>
 
+#### Compilation
+
+npm install --save webpack
+npm install --save jquery@2.2.4
+npm install --save keyboardjs
+npm install --save lodash
+npm install --save lz-string
+npx webpack
+
