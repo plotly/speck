@@ -17,8 +17,8 @@ To install for jupyterlab
 
 For a development installation (requires npm),
 
-    $ git clone https://github.com//ipyspeck.git
-    $ cd ipyspeck
+    $ git clone https://github.com//denphi//speck.git
+    $ cd speck/widget/ipyspeck
     $ pip install -e .
     $ jupyter nbextension install --py --symlink --sys-prefix ipyspeck
     $ jupyter nbextension enable --py --sys-prefix ipyspeck
@@ -31,4 +31,3 @@ When actively developing your extension, build Jupyter Lab with the command:
 This takes a minute or so to get started, but then automatically rebuilds JupyterLab when your javascript changes.
 
 Note on first `jupyter lab --watch`, you may need to touch a file to get Jupyter Lab to open.
-
