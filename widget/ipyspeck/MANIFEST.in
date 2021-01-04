@@ -1,0 +1,6 @@
+recursive-include ipyspeck/static *.*
+include ipyspeck.json
+
+include LICENSE
+include setup.py
+include pyproject.toml

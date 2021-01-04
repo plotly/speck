@@ -74,24 +74,33 @@ requirejs(['react', 'react-dom'], function(React, ReactDOM) {
               dofStrength: this.view.dofStrength,
               dofPosition: this.view.dofPosition,
               fxaa: this.view.fxaa,
-              data: "46\ntestosterone.out\nC     -4.0599     -2.1760     -0.8224\nO     -4.9516     -2.8840     -1.2414\nC     -4.2163     -0.6676     -0.7586\nC     -2.8826      0.0343     -0.9993\nC     -2.7857     -2.7158     -0.3131\nC     -1.7443     -1.9501      0.0575\nC     -0.5249     -2.5861      0.6659\nC      0.7827     -1.9356      0.2082\nC      0.7295     -0.4182      0.4294\nC      2.0267      0.2733     -0.0072\nC      3.3706     -0.1900      0.5799\nC      4.3192      1.0027      0.3273\nC      3.4317      2.2202     -0.0268\nO      3.9384      3.3043      0.7679\nC      1.9714      1.7980      0.3340\nC      1.7106      2.0852      1.8182\nC      0.8686      2.4201     -0.5385\nC     -0.4798      1.7315     -0.2601\nC     -0.4282      0.1930     -0.4091\nC     -1.7900     -0.4363     -0.0132\nH     -2.7575     -3.8052     -0.2565\nH     -0.6135     -2.5201      1.7733\nH     -0.4925     -3.6738      0.4451\nH      1.6336     -2.3732      0.7646\nH      0.9690     -2.1675     -0.8583\nH      0.5479     -0.2168      1.5138\nH      2.1058      0.1678     -1.1210\nH      3.2853     -0.4094      1.6573\nH      3.7364     -1.1101      0.0994\nH      4.9267      1.2382      1.2217\nH      5.0342      0.7890     -0.4822\nH      3.5293      2.5237     -1.0880\nH      3.2906      4.0296      0.8195\nH      0.8832      1.4797      2.2078\nH      2.5972      1.8604      2.4268\nH      1.4613      3.1361      1.9910\nH      0.7818      3.5044     -0.3452\nH      1.1247      2.3262     -1.6107\nH     -0.8205      1.9959      0.7596\nH     -1.2411      2.1442     -0.9502\nH     -0.2361     -0.0466     -1.4843\nH     -4.6390     -0.3984      0.2304\nH     -4.9734     -0.3373     -1.4982\nH     -2.5493     -0.1544     -2.0405\nH     -3.0184      1.1303     -0.9178\nH     -2.0604     -0.0823      1.0166\n"
+              data: "10\ntestosterone.out\nC     -4.0599     -2.1760     -0.8224\nO     -4.9516     -2.8840     -1.2414\nC     -4.2163     -0.6676     -0.7586\nC     -2.8826      0.0343     -0.9993\nC     -2.7857     -2.7158     -0.3131\nC     -1.7443     -1.9501      0.0575\nC     -0.5249     -2.5861      0.6659\nC      0.7827     -1.9356      0.2082\nC      0.7295     -0.4182      0.4294\nC      2.0267      0.2733     -0.0072\n"
             }
           }
 
-          loadStructure(data) {
-              this.system = Bundle.speckSystem.new();
+          loadTest(){
+            let self = this;
+            self.setState({
+              data : "46\ntestosterone.out\nC     -4.0599     -2.1760     -0.8224\nO     -4.9516     -2.8840     -1.2414\nC     -4.2163     -0.6676     -0.7586\nC     -2.8826      0.0343     -0.9993\nC     -2.7857     -2.7158     -0.3131\nC     -1.7443     -1.9501      0.0575\nC     -0.5249     -2.5861      0.6659\nC      0.7827     -1.9356      0.2082\nC      0.7295     -0.4182      0.4294\nC      2.0267      0.2733     -0.0072\nC      3.3706     -0.1900      0.5799\nC      4.3192      1.0027      0.3273\nC      3.4317      2.2202     -0.0268\nO      3.9384      3.3043      0.7679\nC      1.9714      1.7980      0.3340\nC      1.7106      2.0852      1.8182\nC      0.8686      2.4201     -0.5385\nC     -0.4798      1.7315     -0.2601\nC     -0.4282      0.1930     -0.4091\nC     -1.7900     -0.4363     -0.0132\nH     -2.7575     -3.8052     -0.2565\nH     -0.6135     -2.5201      1.7733\nH     -0.4925     -3.6738      0.4451\nH      1.6336     -2.3732      0.7646\nH      0.9690     -2.1675     -0.8583\nH      0.5479     -0.2168      1.5138\nH      2.1058      0.1678     -1.1210\nH      3.2853     -0.4094      1.6573\nH      3.7364     -1.1101      0.0994\nH      4.9267      1.2382      1.2217\nH      5.0342      0.7890     -0.4822\nH      3.5293      2.5237     -1.0880\nH      3.2906      4.0296      0.8195\nH      0.8832      1.4797      2.2078\nH      2.5972      1.8604      2.4268\nH      1.4613      3.1361      1.9910\nH      0.7818      3.5044     -0.3452\nH      1.1247      2.3262     -1.6107\nH     -0.8205      1.9959      0.7596\nH     -1.2411      2.1442     -0.9502\nH     -0.2361     -0.0466     -1.4843\nH     -4.6390     -0.3984      0.2304\nH     -4.9734     -0.3373     -1.4982\nH     -2.5493     -0.1544     -2.0405\nH     -3.0184      1.1303     -0.9178\nH     -2.0604     -0.0823      1.0166\n"
+            }, () => self.loadStructure());
+          }
+
+          loadStructure() {
+              let self = this;
+              var data = self.xyz(self.state.data)[0]
+              self.system = Bundle.speckSystem.new();
               for (var i = 0; i < data.length; i++) {
                   var a = data[i];
                   var x = a.position[0];
                   var y = a.position[1];
                   var z = a.position[2];
-                  Bundle.speckSystem.addAtom(this.system, a.symbol, x,y,z);
+                  Bundle.speckSystem.addAtom(self.system, a.symbol, x,y,z);
               }
-              Bundle.speckSystem.center(this.system);
-              Bundle.speckSystem.calculateBonds(this.system);
-              this.renderer.setSystem(this.system, this.view);
-              Bundle.speckView.center(this.view, this.system);
-              this.needReset = true;
+              Bundle.speckSystem.center(self.system);
+              Bundle.speckSystem.calculateBonds(self.system);
+              this.renderer.setSystem(self.system, self.view);
+              Bundle.speckView.center(self.view, self.system);
+              self.needReset = true;
           }
 
           xyz(data) {
@@ -116,19 +125,20 @@ requirejs(['react', 'react-dom'], function(React, ReactDOM) {
           }
 
           reflow() {
-              let self = this;
-              var ww = self.container.current.parentElement.clientWidth;
-              var wh = self.container.current.parentElement.clientHeight;
-              if (self.view.resolution.x == ww && self.view.resolution.y == wh)
-                return;
-              self.container.current.style.height = wh + "px";
-              self.container.current.style.width = ww + "px";
-              self.container.current.style.left = 0 + "px";
-              self.container.current.style.top = 0 + "px";
-              self.view.resolution.x=ww;
-              self.view.resolution.y=wh;
-              self.renderer = new Bundle.speckRenderer(self.canvas.current, self.view.resolution, self.view.aoRes);
-              self.loadStructure(this.xyz(self.state.data)[0]);
+            console.log("reflow");
+
+            let self = this;
+            var ww = self.container.current.parentElement.clientWidth;
+            var wh = self.container.current.parentElement.clientHeight;
+            if (self.view.resolution.x == ww && self.view.resolution.y == wh)
+              return;
+            self.container.current.style.height = wh + "px";
+            self.container.current.style.width = ww + "px";
+            self.container.current.style.left = 0 + "px";
+            self.container.current.style.top = 0 + "px";
+            self.view.resolution.x=ww;
+            self.view.resolution.y=wh;
+            self.renderer = new Bundle.speckRenderer(self.canvas.current, self.view.resolution, self.view.aoRes);
           }
 
           loop() {
@@ -144,6 +154,7 @@ requirejs(['react', 'react-dom'], function(React, ReactDOM) {
           componentDidMount(){
               let self = this;
               self.reflow()
+              self.loadStructure();
               window.addEventListener("resize", function(){self.reflow()});
               this.loop();
               Bundle.speckInteractions({
@@ -160,8 +171,34 @@ requirejs(['react', 'react-dom'], function(React, ReactDOM) {
           }
 
           render() {
-            return React.createElement("div", {ref:this.container, key:'container'},[
-              React.createElement("canvas", {ref:this.canvas, key:'canvas'})
+            let self = this;
+            /*self.view.aspect = self.state.aspect;
+            self.view.zoom = self.state.zoom;
+            self.view.translation = self.state.translation;
+            self.view.atomScale = self.state.atomScale;
+            self.view.relativeAtomScale = self.state.relativeAtomScale;
+            self.view.bondScale = self.state.bondScale;
+            self.view.rotation = self.state.rotation;
+            self.view.ao = self.state.ao;
+            self.view.aoRes = self.state.aoRes;
+            self.view.brightness = self.state.brightness;
+            self.view.outline = self.state.outline;
+            self.view.spf = self.state.spf;
+            self.view.aspect = self.state.aspect;
+            self.view.bonds = self.state.bonds;
+            self.view.bondThreshold = self.state.bondThreshold;
+            self.view.bondShade = self.state.bondShade;
+            self.view.atomShade = self.state.atomShade;
+            self.view.resolution = self.state.resolution;
+            self.view.dofStrength = self.state.dofStrength;
+            self.view.dofPosition = self.state.dofPosition;
+            self.view.fxaa = self.state.fxaa;
+            if (self.view.data != self.state.data){
+              self.view.data = self.state.data;
+              //self.reflow();
+            }*/
+            return React.createElement("div", {ref:self.container, key:'container', onClick:function(){self.loadTest()}},[
+              React.createElement("canvas", {ref:self.canvas, key:'canvas'})
             ])
           }
         }

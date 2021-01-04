@@ -58,8 +58,10 @@ var center = module.exports.center = function(v, system) {
     var cx = minX + (maxX - minX) / 2.0;
     var cy = minY + (maxY - minY) / 2.0;
     let mres = Math.max(v.resolution.x,v.resolution.y)
-    cx += (maxX - minX) * (1-v.resolution.x/mres);
-    cy += (maxY - minY) * (1-v.resolution.y/mres);
+    //cx += (maxX - minX) * (1-v.resolution.x/mres);
+    //cy += (maxY - minY) * (1-v.resolution.y/mres);
+    cx += (maxX - minX) * (mres/v.resolution.x - 1)/2;
+    cy += (maxY - minY) * (mres/v.resolution.y - 1)/2;
     v.translation.x = cx;
     v.translation.y = cy;
     var scale = Math.max((maxX - minX)*(mres/v.resolution.x), (maxY - minY)*(mres/v.resolution.y));
