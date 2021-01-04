@@ -58,10 +58,10 @@ Speck goes to great lengths to decouple rendering options, so that you have the 
 
 #### Compilation
 
-npm install --save webpack
-npm install --save jquery@2.2.4
-npm install --save keyboardjs
-npm install --save lodash
-npm install --save lz-string
-npx webpack
+* npm install --save webpack
+* npm install --save jquery@2.2.4
+* npm install --save keyboardjs
+* npm install --save lodash
+* npm install --save lz-string
+* npx webpack
 
