@@ -29,12 +29,8 @@ class Speck(widgets.DOMWidget):
     # is automatically synced to the frontend *any* time it changes in Python.
     # It is synced back to Python from the frontend *any* time the model is touched.
     data = Unicode('').tag(sync=True)
-
     bonds = Bool(True).tag(sync=True)
-
     atomScale = Float(0.35).tag(sync=True)
-
-
     relativeAtomScale = Float(1.0).tag(sync=True)
     bondScale = Float(0.5).tag(sync=True)
     brightness = Float(0.5).tag(sync=True)

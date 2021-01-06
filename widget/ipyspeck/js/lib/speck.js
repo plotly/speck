@@ -77,6 +77,10 @@ var SpeckView = widgets.DOMWidgetView.extend({
       let self = this;
       self.container = document.createElement('div')
       self.canvas = document.createElement('canvas')
+      self.canvas.addEventListener('dblclick', function(){
+        self.center();
+      });
+
       self.container.append(self.canvas)
       self.el.append(self.container)
       self.el.style.width="100%"
