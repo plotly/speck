@@ -20,7 +20,7 @@ log.info('setup.py entered')
 log.info('$PATH=%s' % os.environ['PATH'])
 
 name = 'ipyspeck'
-LONG_DESCRIPTION = 'Speck Jupyter Widget'
+LONG_DESCRIPTION = 'Speck Jupyter Widget, Speck is a molecule renderer with the goal of producing figures that are as attractive as they are practical. Express your molecule clearly and with style using Jupyter '
 
 # Get ipyspeck version
 version = get_version(pjoin(name, '_version.py'))
@@ -56,7 +56,7 @@ setup_args = dict(
     cmdclass=cmdclass,
     author='Daniel Mejia (Denphi)',
     author_email='denphi@denphi.com',
-    url='https://github.com//ipyspeck',
+    url='https://github.com/denphi/speck/tree/master/widget/ipyspeck',
     keywords=[
         'ipython',
         'jupyter',
