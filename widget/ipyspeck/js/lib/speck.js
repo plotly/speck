@@ -80,8 +80,108 @@ var SpeckView = widgets.DOMWidgetView.extend({
       self.canvas.addEventListener('dblclick', function(){
         self.center();
       });
+      self.sidebar = document.createElement('div')
+      self.sidebar.style.top = "0px"
+      self.sidebar.style.height = "20px"
+      self.sidebar.style.right = "0px"
+      self.sidebar.style.position = "absolute"
+      self.sidebar.style.background = "rgba(255,255,255,0.5)"
+      self.sidebar.style.flexDirection = "row";
+      self.sidebar.style.alignContent = "flex-end";
+      self.sidebar.style.display = "flex";
+
+      self.autoscale = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.autoscale.setAttribute('width', "16");
+      self.autoscale.setAttribute('height', "16");
+      self.autoscale.setAttribute('viewBox', "0 0 16 16");
+      self.autoscale.setAttribute('fill', "#AAAAAA");
+      self.autoscale.addEventListener('mouseover', function(){
+        self.autoscale.setAttribute('fill', "#666666");
+      });
+      self.autoscale.addEventListener('mouseout', function(){
+        self.autoscale.setAttribute('fill', "#AAAAAA");
+      });
+      self.autoscale.innerHTML = '<g><path d="M 4,0L 1,0 L 0,0 l0,1 l0,3 l 1,0 l0-3 l 3,0 L 4,0z M 15,0l-3,0 l0,1 l 3,0 l0,3 l 1,0 l0-3 l0-1 L 15,0 z M 1,15l0-3 L 0,12 l0,3 l0,1 l 1,0 l 3,0 l0-1 L 1,15 z M 15,12l0,3 l-3,0 l0,1 l 3,0 l 1,0 l0-1 l0-3 L 15,12 z M 13,9l-0.008-0.003L 11.5,10.5l-2.5-2.5l 2.5-2.5l 1.471,1.5L 13,7 l0-4 l-4,0 l0,0.030 l 1.5,1.47l-2.5,2.5l-2.5-2.5l 1.5-1.47l0-0.030 L 3,3 l0,4 l0,0l 1.5-1.5l 2.5,2.5l-2.5,2.5L 3,9l0,0l0,4 l 4,0 l0,0l-1.5-1.5l 2.5-2.5l 2.5,2.5l-1.5,1.5l0,0l 4,0 L 13,9 z"></path></g>';
+      self.autoscale.addEventListener('click', function(){
+        self.center();
+      });
+      self.autoscalec = document.createElement("div");
+      self.autoscalec.style.padding="2px"
+      self.autoscalec.append(self.autoscale)
+
+      self.front = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.front.setAttribute('width', "16");
+      self.front.setAttribute('height', "16");
+      self.front.setAttribute('viewBox', "0 0 16 16");
+      self.front.setAttribute('fill', "#AAAAAA");
+      self.front.setAttribute('stroke', "#AAAAAA");
+      self.front.addEventListener('mouseover', function(){
+        self.front.setAttribute('fill', "#666666");
+        self.front.setAttribute('stroke', "#666666");
+      });
+      self.front.addEventListener('mouseout', function(){
+        self.front.setAttribute('fill', "#AAAAAA");
+        self.front.setAttribute('stroke', "#AAAAAA");
+      });
+      self.front.innerHTML = '<g><path d="M 0 5 h 10 v 10 h -10 v -10" fill="none"/><path d="M 4 0 h 10 l -4 4 h -10 l -4 4" stroke="none"/><path d="M 11 5 l 4 -4 v 10 l -4 4 v -10" stroke="none"/></g>';
+      self.front.addEventListener('click', function(){
+        self.frontview();
+      });
+      self.frontc = document.createElement("div");
+      self.frontc.style.padding="2px"
+      self.frontc.append(self.front)
+
+      self.top = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.top.setAttribute('width', "16");
+      self.top.setAttribute('height', "16");
+      self.top.setAttribute('viewBox', "0 0 16 16");
+      self.top.setAttribute('fill', "#AAAAAA");
+      self.top.setAttribute('stroke', "#AAAAAA");
+      self.top.addEventListener('mouseover', function(){
+        self.top.setAttribute('fill', "#666666");
+        self.top.setAttribute('stroke', "#666666");
+      });
+      self.top.addEventListener('mouseout', function(){
+        self.top.setAttribute('fill', "#AAAAAA");
+        self.top.setAttribute('stroke', "#AAAAAA");
+      });
+      self.top.innerHTML = '<g><path d="M 0 5 h 10 v 10 h -10 v -10" stroke="none"/><path d="M 4 0 h 10 l -4 4 h -10 l -4 4" fill="none"/><path d="M 11 5 l 4 -4 v 10 l -4 4 v -10" stroke="none"/></g>';
+      self.top.addEventListener('click', function(){
+        self.topview();
+      });
+      self.topc = document.createElement("div");
+      self.topc.style.padding="2px"
+      self.topc.append(self.top)
+
+      self.right = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.right.setAttribute('width', "16");
+      self.right.setAttribute('height', "16");
+      self.right.setAttribute('viewBox', "0 0 16 16");
+      self.right.setAttribute('fill', "#AAAAAA");
+      self.right.setAttribute('stroke', "#AAAAAA");
+      self.right.addEventListener('mouseover', function(){
+        self.right.setAttribute('fill', "#666666");
+        self.right.setAttribute('stroke', "#666666");
+      });
+      self.right.addEventListener('mouseout', function(){
+        self.right.setAttribute('fill', "#AAAAAA");
+        self.right.setAttribute('stroke', "#AAAAAA");
+      });
+      self.right.innerHTML = '<g><path d="M 0 5 h 10 v 10 h -10 v -10" stroke="none"/><path d="M 4 0 h 10 l -4 4 h -10 l -4 4" stroke="none"/><path d="M 11 5 l 4 -4 v 10 l -4 4 v -10" fill="none"/></g>';
+      self.right.addEventListener('click', function(){
+        self.rightview();
+      });
+      self.rightc = document.createElement("div");
+      self.rightc.style.padding="2px"
+      self.rightc.append(self.right)
 
       self.container.append(self.canvas)
+      self.sidebar.append(self.frontc)
+      self.sidebar.append(self.topc)
+      self.sidebar.append(self.rightc)
+      self.sidebar.append(self.autoscalec)
+
+      self.el.append(self.sidebar)
       self.el.append(self.container)
       self.el.style.width="100%"
       self.el.style.height="100%"
@@ -124,6 +224,30 @@ var SpeckView = widgets.DOMWidgetView.extend({
         this.renderer.setSystem(self.system, self.view);
         speckView.center(self.view, self.system);
         self.needReset = true;
+      }
+    },
+
+    topview: function(){
+      let self = this;
+      if (self.system){
+        speckView.rotateX(self.view, Math.PI/2);
+        self.center();
+      }
+    },
+
+    frontview: function(){
+      let self = this;
+      if (self.system){
+        speckView.rotateX(self.view, 0);
+        self.center();
+      }
+    },
+
+    rightview: function(){
+      let self = this;
+      if (self.system){
+        speckView.rotateY(self.view, -Math.PI/2);
+        self.center();
       }
     },
 
@@ -177,6 +301,16 @@ var SpeckView = widgets.DOMWidgetView.extend({
         requestAnimationFrame(function(){self.loop()});
     },
 
+    handleCustomMessage: function(message) {
+      if (message == "frontview"){
+        this.frontview();
+      } else if (message == "topview"){
+          this.topview();
+      } else if (message == "rightview"){
+          this.rightview();
+      }
+    },
+
     render: function() {
         let self = this;
         this.model.on('change:data', this.loadStructure, this);
@@ -192,6 +326,7 @@ var SpeckView = widgets.DOMWidgetView.extend({
         this.model.on('change:atomShade', function(){this.view.atomShade = this.model.get('atomShade');this.needReset = true;}, this);
         this.model.on('change:dofStrength', function(){this.view.dofStrength = this.model.get('dofStrength');this.needReset = true;}, this);
         this.model.on('change:dofPosition', function(){this.view.dofPosition = this.model.get('dofPosition');this.needReset = true;}, this);
+        this.model.on('msg:custom', this.handleCustomMessage, this);
     },
 
     /**
@@ -217,6 +352,15 @@ var SpeckView = widgets.DOMWidgetView.extend({
            case "resize":
              self.reflow();
              self.center();
+             break;
+           case "topview":
+             self.topview();
+             break;
+           case "frontview":
+             self.frontview();
+             break;
+           case "rightview":
+             self.rightview();
              break;
        }
      },

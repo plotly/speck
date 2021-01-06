@@ -1,6 +1,6 @@
 {
   "name": "speck",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "",
   "main": "build/index.js",
   "scripts": {
@@ -8,13 +8,14 @@
   },
   "dependencies": {
     "brfs": "~1.2.0",
+    "ipyspeck": "file:widget/ipyspeck/js",
     "jquery": "^2.2.4",
     "keyboardjs": "^0.4.3",
     "lodash": "^4.17.20",
     "lz-string": "^1.4.4"
   },
   "devDependencies": {
-    "webpack": "^4.26.1",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   },
   "author": "",

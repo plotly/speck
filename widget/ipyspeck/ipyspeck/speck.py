@@ -28,6 +28,7 @@ class Speck(widgets.DOMWidget):
     # Widget properties are defined as traitlets. Any property tagged with `sync=True`
     # is automatically synced to the frontend *any* time it changes in Python.
     # It is synced back to Python from the frontend *any* time the model is touched.
+
     data = Unicode('').tag(sync=True)
     bonds = Bool(True).tag(sync=True)
     atomScale = Float(0.35).tag(sync=True)
@@ -41,3 +42,12 @@ class Speck(widgets.DOMWidget):
     atomShade = Float(0.5).tag(sync=True)
     dofStrength = Float(0.0).tag(sync=True)
     dofPosition = Float(0.5).tag(sync=True)
+
+    def frontview(self):
+        self.send("frontview")
+
+    def topview(self):
+        self.send("topview")
+
+    def rightview(self):
+        self.send("rightview")

@@ -127,6 +127,39 @@ var rotate = module.exports.rotate = function(v, dx, dy) {
     v.ao = ao;
 };
 
+var rotateX = module.exports.rotateX = function(v, dx) {
+    var m = glm.mat4.create();
+    glm.mat4.rotateX(m, m, dx);
+    v.rotation = m;
+    //glm.mat4.multiply(v.rotation, m, v.rotation);
+    const ao = v.ao;
+    v.ao = 0;
+    resolve(v);
+    v.ao = ao;
+};
+
+var rotateY = module.exports.rotateY = function(v, dy) {
+    var m = glm.mat4.create();
+    glm.mat4.rotateY(m, m, dy);
+    v.rotation = m;
+    //glm.mat4.multiply(v.rotation, m, v.rotation);
+    const ao = v.ao;
+    v.ao = 0;
+    resolve(v);
+    v.ao = ao;
+};
+
+var rotateZ = module.exports.rotateZ = function(v, dz) {
+    var m = glm.mat4.create();
+    glm.mat4.rotateZ(m, m, dz);
+    v.rotation = m;
+    //glm.mat4.multiply(v.rotation, m, v.rotation);
+    const ao = v.ao;
+    v.ao = 0;
+    resolve(v);
+    v.ao = ao;
+};
+
 
 var getRect = module.exports.getRect = function(v) {
     var width = 1.0/v.zoom;
