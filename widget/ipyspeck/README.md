@@ -36,20 +36,24 @@ Ipyspeck is a ipywidget wrapping speck to be used on a Jupyter notebook as a reg
 
 The ipyspeck widget renders xyz molecules.
 
+![h2o](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/h2o.png)
+
 ```python
 import ipyspeck
 
-H20='''3
+H2O='''3
 Water molecule
 O          0.00000        0.00000        0.11779
 H          0.00000        0.75545       -0.47116
 H          0.00000       -0.75545       -0.47116'''
-h2o = ipyspeck.speck.Speck(data=H20)
+h2o = ipyspeck.speck.Speck(data=H2O)
 h2o
 ```
 
 Ideally it should be used as part of a container widget (such as Box, VBox, Grid, ...)
 
+
+![h2oc](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/h2oc.png)
 ```python
 
 import ipywidgets as w
@@ -57,7 +61,17 @@ c = w.Box([h2o], layout=w.Layout(width="600px",height="400px"))
 c
 ```
 
-To render molecules on different formats  openbabel can be user to translate them as xyz
+The visualization parameters can be modified
+```python
+#Modify atoms size
+h2o.atomScale = 0.3
+#change bonds size
+h2o.bondScale = 0.3
+#highlight borders
+h2o.outline = 0
+```
+
+To render molecules on different formats  openbabel can be used to translate them as xyz
 
 ```python
 import openbabel
@@ -71,16 +85,7 @@ obConversion.ReadString(mol, r.text)
 co2 = obConversion.WriteString(mol)
 ipyspeck.speck.Speck(data=co2)
 ```
-
-The visualization can be modified
-```python
-#Modify atoms size
-h2o.atomScale = 0.3
-#change bonds size
-h2o.bondScale = 0.3
-#highlight borders
-h2o.outline = 0
-```
+![co2](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/co2.png)
 
 ## Installation
 
