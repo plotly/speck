@@ -43,7 +43,7 @@ cmdclass['jsdeps'] = combine_commands(
 
 LONG_DESCRIPTION = ""
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    LONG_DESCRIPTION = fh.read()
 
 setup_args = dict(
     name=name,
