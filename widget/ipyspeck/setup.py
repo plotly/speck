@@ -20,7 +20,6 @@ log.info('setup.py entered')
 log.info('$PATH=%s' % os.environ['PATH'])
 
 name = 'ipyspeck'
-LONG_DESCRIPTION = 'Speck Jupyter Widget, Speck is a molecule renderer with the goal of producing figures that are as attractive as they are practical. Express your molecule clearly and with style using Jupyter '
 
 # Get ipyspeck version
 version = get_version(pjoin(name, '_version.py'))
@@ -42,11 +41,16 @@ cmdclass['jsdeps'] = combine_commands(
     install_npm(js_dir, build_cmd='build'), ensure_targets(jstargets),
 )
 
+LONG_DESCRIPTION = ""
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup_args = dict(
     name=name,
     version=version,
     description='Speck Jupyter Widget',
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     include_package_data=True,
     install_requires=[
         'ipywidgets>=7.0.0',
