@@ -64,4 +64,3 @@ Speck goes to great lengths to decouple rendering options, so that you have the 
 * npm install --save lodash
 * npm install --save lz-string
 * npx webpack
-
