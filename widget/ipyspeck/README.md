@@ -20,8 +20,6 @@ ipyspeck
     </tr>
 </table>
 
-# Speck Jupyter Widget
-
 ## Speck
 
 Speck is a molecule renderer with the goal of producing figures that are as attractive as they are practical. Express your molecule clearly _and_ with style.
@@ -32,7 +30,8 @@ Speck is a molecule renderer with the goal of producing figures that are as attr
 
 ## ipypeck
 
-Ipyspeck is a Jupyter Widget that allows use speck on a Jupyter notebook
+Ipyspeck is a Jupyter Widget that wrapping speck to be used on a Jupyter notebook as a regular widget
+
 
 ##Installation
 
