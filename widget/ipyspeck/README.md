@@ -1,7 +1,7 @@
 ipyspeck
 ===============================
 
-# ipyspeck Stats
+##ipyspeck Stats
 
 <table>
     <tr>
