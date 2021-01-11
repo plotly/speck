@@ -195,8 +195,8 @@ module.exports = function (canvas, resolution, aoResolution) {
                 imposter.push.apply(imposter, cube.position);
                 var a = system.atoms[i];
                 position.push.apply(position, make36([a.x, a.y, a.z]));
-                radius.push.apply(radius, make36([elements[a.symbol].radius]));
-                var c = elements[a.symbol].color;
+                radius.push.apply(radius, make36([view.elements[a.symbol].radius]));
+                var c = view.elements[a.symbol].color;
                 color.push.apply(color, make36([c[0], c[1], c[2]]));
             }
 

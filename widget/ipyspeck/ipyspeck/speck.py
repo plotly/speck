@@ -20,9 +20,9 @@ class Speck(widgets.DOMWidget):
     _model_module = Unicode('ipyspeck').tag(sync=True)
 
     # Version of the front-end module containing widget view
-    _view_module_version = Unicode('^0.0.1').tag(sync=True)
+    _view_module_version = Unicode('^0.5.0').tag(sync=True)
     # Version of the front-end module containing widget model
-    _model_module_version = Unicode('^0.0.1').tag(sync=True)
+    _model_module_version = Unicode('^0.5.0').tag(sync=True)
 
     # Widget specific property.
     # Widget properties are defined as traitlets. Any property tagged with `sync=True`
@@ -44,10 +44,16 @@ class Speck(widgets.DOMWidget):
     dofPosition = Float(0.5).tag(sync=True)
 
     def frontview(self):
-        self.send("frontview")
+        self.send({"do":"frontView"})
 
     def topview(self):
-        self.send("topview")
+        self.send({"do":"topView"})
 
     def rightview(self):
-        self.send("rightview")
+        self.send({"do":"rightView"})
+
+    def setAtomColor(self, atom, color):
+        self.setAtomsColor({ atom : color})
+
+    def setAtomsColor(self, atoms):
+        self.send({"do":"changeAtomsColor","atoms":atoms})

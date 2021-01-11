@@ -1,6 +1,6 @@
 "use strict";
 
-
+var _ = require('lodash');
 var glm = require("./gl-matrix");
 var elements = require("./elements");
 var consts = require("./const");
@@ -34,7 +34,8 @@ var newView = module.exports.new = function() {
         resolution: {x:768,y:768},
         dofStrength: 0.0,
         dofPosition: 0.5,
-        fxaa: 1
+        fxaa: 1,
+        elements : _.cloneDeep(elements)
     };
 };
 
@@ -46,7 +47,7 @@ var center = module.exports.center = function(v, system) {
     var minY = Infinity;
     for(var i = 0; i < system.atoms.length; i++) {
         var a = system.atoms[i];
-        var r = elements[a.symbol].radius;
+        var r = v.elements[a.symbol].radius;
         r = 2.5 * v.atomScale * (1 + (r - 1) * v.relativeAtomScale);
         var p = glm.vec4.fromValues(a.x, a.y, a.z, 0);
         glm.vec4.transformMat4(p, p, v.rotation);

@@ -14,7 +14,10 @@ var newSystem = module.exports.new = function() {
 };
 
 
-var calculateBonds = module.exports.calculateBonds = function(s) {
+var calculateBonds = module.exports.calculateBonds = function(s, v) {
+    var elems = elements;
+    if (v != undefined)
+        elems = v.elements;
     var bonds = [];
     var sorted = s.atoms.slice();
     sorted.sort(function(a, b) {
@@ -28,8 +31,8 @@ var calculateBonds = module.exports.calculateBonds = function(s) {
             var l = glm.vec3.fromValues(a.x, a.y, a.z);
             var m = glm.vec3.fromValues(b.x, b.y, b.z);
             var d = glm.vec3.distance(l, m);
-            var ea = elements[a.symbol];
-            var eb = elements[b.symbol];
+            var ea = elems[a.symbol];
+            var eb = elems[b.symbol];
             if (d < 2.5*(ea.radius+eb.radius)) {
                 bonds.push({
                     posA: {
@@ -102,15 +105,19 @@ var center = module.exports.center = function(s) {
     }
 }
 
-var getFarAtom = module.exports.getFarAtom = function(s) {
+var getFarAtom = module.exports.getFarAtom = function(s, v) {
     if (s.farAtom !== undefined) {
         return s.farAtom;
     }
+    var elems = elements;
+    if (v != undefined)
+        elems = v.elements;
+
     s.farAtom = s.atoms[0];
     var maxd = 0.0;
     for (var i = 0; i < s.atoms.length; i++) {
         var atom = s.atoms[i];
-        var r = elements[atom.symbol].radius;
+        var r = elems[atom.symbol].radius;
         var rd = Math.sqrt(r*r + r*r + r*r) * 2.5;
         var d = Math.sqrt(atom.x*atom.x + atom.y*atom.y + atom.z*atom.z) + rd;
         if (d > maxd) {
@@ -121,8 +128,8 @@ var getFarAtom = module.exports.getFarAtom = function(s) {
     return s.farAtom;
 }
 
-var getRadius = module.exports.getRadius = function(s) {
-    var atom = getFarAtom(s);
+var getRadius = module.exports.getRadius = function(s, v) {
+    var atom = getFarAtom(s, v);
     var r = consts.MAX_ATOM_RADIUS;
     var rd = Math.sqrt(r*r + r*r + r*r) * 2.5;
     return Math.sqrt(atom.x*atom.x + atom.y*atom.y + atom.z*atom.z) + rd;

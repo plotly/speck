@@ -7,6 +7,8 @@ const speckInteractions = require('./interactions.js');
 const speckPresetViews = require('./presets.js');
 
 
+
+
 // See example.py for the kernel counterpart to this file.
 
 
@@ -35,8 +37,8 @@ var SpeckModel = widgets.DOMWidgetModel.extend({
         _view_module_version : '0.0.1',
         data : '',
         bonds : true,
-        atomScale : 0.35,
-        relativeAtomScale: 1.0,
+        atomScale : 0.24,
+        relativeAtomScale: 0.64,
         bondScale: 0.5,
         brightness: 0.5,
         outline: 0.0,
@@ -100,7 +102,7 @@ var SpeckView = widgets.DOMWidgetView.extend({
       self.autoscale.addEventListener('mouseout', function(){
         self.autoscale.setAttribute('fill', "#AAAAAA");
       });
-      self.autoscale.innerHTML = '<g><path d="M 4,0L 1,0 L 0,0 l0,1 l0,3 l 1,0 l0-3 l 3,0 L 4,0z M 15,0l-3,0 l0,1 l 3,0 l0,3 l 1,0 l0-3 l0-1 L 15,0 z M 1,15l0-3 L 0,12 l0,3 l0,1 l 1,0 l 3,0 l0-1 L 1,15 z M 15,12l0,3 l-3,0 l0,1 l 3,0 l 1,0 l0-1 l0-3 L 15,12 z M 13,9l-0.008-0.003L 11.5,10.5l-2.5-2.5l 2.5-2.5l 1.471,1.5L 13,7 l0-4 l-4,0 l0,0.030 l 1.5,1.47l-2.5,2.5l-2.5-2.5l 1.5-1.47l0-0.030 L 3,3 l0,4 l0,0l 1.5-1.5l 2.5,2.5l-2.5,2.5L 3,9l0,0l0,4 l 4,0 l0,0l-1.5-1.5l 2.5-2.5l 2.5,2.5l-1.5,1.5l0,0l 4,0 L 13,9 z"></path></g>';
+      self.autoscale.innerHTML = '<g><path d="M 1 5 v -4 h 4 M 15 5 v -4 h -4 M 1 11 v 4 h 4 M 11 15 h 4 v -4 M 5 8 l 3 -3 l 3 3 l -3 3 l -3 -3"></path></g>';
       self.autoscale.addEventListener('click', function(){
         self.center();
       });
@@ -174,7 +176,107 @@ var SpeckView = widgets.DOMWidgetView.extend({
       self.rightc.style.padding="2px"
       self.rightc.append(self.right)
 
+      self.sti = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.sti.setAttribute('width', "16");
+      self.sti.setAttribute('height', "16");
+      self.sti.setAttribute('viewBox', "0 0 16 16");
+      self.sti.setAttribute('fill', "#AAAAAA");
+      self.sti.setAttribute('stroke', "#AAAAAA");
+      self.sti.addEventListener('mouseover', function(){
+        self.sti.setAttribute('fill', "#666666");
+        self.sti.setAttribute('stroke', "#666666");
+      });
+      self.sti.addEventListener('mouseout', function(){
+        self.sti.setAttribute('fill', "#AAAAAA");
+        self.sti.setAttribute('stroke', "#AAAAAA");
+      });
+      self.sti.innerHTML = '<g><circle cx="4" cy="4" r="2"/><circle cx="10" cy="2" r="1"/><circle cx="10" cy="12" r="3"/><path d="M 5 5 l 3 4 M 6 3 l 3 -1" ></path></g>';
+      self.sti.addEventListener('click', function(){
+        self.stickball();
+        self.updateModel()
+      });
+      self.stic = document.createElement("div");
+      self.stic.style.padding="2px"
+      self.stic.append(self.sti)
+
+
+      self.too = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.too.setAttribute('width', "16");
+      self.too.setAttribute('height', "16");
+      self.too.setAttribute('viewBox', "0 0 16 16");
+      self.too.setAttribute('fill', "#AAAAAA");
+      self.too.setAttribute('stroke', "#AAAAAA");
+      self.too.addEventListener('mouseover', function(){
+        self.too.setAttribute('fill', "#666666");
+        self.too.setAttribute('stroke', "#666666");
+      });
+      self.too.addEventListener('mouseout', function(){
+        self.too.setAttribute('fill', "#AAAAAA");
+        self.too.setAttribute('stroke', "#AAAAAA");
+      });
+      self.too.innerHTML = '<g><circle cx="4" cy="4" r="1"/><circle cx="10" cy="2" r="1"/><circle cx="10" cy="12" r="1"/><path d="M 4 5 l 5 6 M 5 3 l 4 -1" ></path></g>';
+      self.too.addEventListener('click', function(){
+        self.toon();
+        self.updateModel()
+      });
+      self.tooc = document.createElement("div");
+      self.tooc.style.padding="2px"
+      self.tooc.append(self.too)
+
+      self.lic = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.lic.setAttribute('width', "16");
+      self.lic.setAttribute('height', "16");
+      self.lic.setAttribute('viewBox', "0 0 16 16");
+      self.lic.setAttribute('fill', "#AAAAAA");
+      self.lic.setAttribute('stroke', "#AAAAAA");
+      self.lic.addEventListener('mouseover', function(){
+        self.lic.setAttribute('fill', "#666666");
+        self.lic.setAttribute('stroke', "#666666");
+      });
+      self.lic.addEventListener('mouseout', function(){
+        self.lic.setAttribute('fill', "#AAAAAA");
+        self.lic.setAttribute('stroke', "#AAAAAA");
+      });
+      self.lic.innerHTML = '<g><circle cx="4" cy="4" r="2" fill="none"/><circle cx="10" cy="2" r="1" fill="none"/><circle cx="10" cy="12" r="3" fill="none"/><path d="M 5 5 l 3 4 M 6 3 l 3 -1" ></path></g>';
+      self.lic.addEventListener('click', function(){
+        self.licorice()
+        self.updateModel();
+      });
+      self.licc = document.createElement("div");
+      self.licc.style.padding="2px"
+      self.licc.append(self.lic)
+
+      self.fil = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.fil.setAttribute('width', "16");
+      self.fil.setAttribute('height', "16");
+      self.fil.setAttribute('viewBox', "0 0 16 16");
+      self.fil.setAttribute('fill', "#AAAAAA");
+      self.fil.setAttribute('stroke', "#AAAAAA");
+      self.fil.addEventListener('mouseover', function(){
+        self.fil.setAttribute('fill', "#666666");
+        self.fil.setAttribute('stroke', "#666666");
+      });
+      self.fil.addEventListener('mouseout', function(){
+        self.fil.setAttribute('fill', "#AAAAAA");
+        self.fil.setAttribute('stroke', "#AAAAAA");
+      });
+      self.fil.innerHTML = '<g><circle cx="4" cy="4" r="2"/><circle cx="10" cy="2" r="1"/><circle cx="10" cy="12" r="3"/></g>';
+      self.fil.addEventListener('click', function(){
+        self.fill();
+        self.updateModel();
+      });
+      self.filc = document.createElement("div");
+      self.filc.style.padding="2px"
+      self.filc.append(self.fil)
+
+
       self.container.append(self.canvas)
+
+      self.sidebar.append(self.stic)
+      self.sidebar.append(self.tooc)
+      self.sidebar.append(self.licc)
+      self.sidebar.append(self.filc)
+
       self.sidebar.append(self.frontc)
       self.sidebar.append(self.topc)
       self.sidebar.append(self.rightc)
@@ -198,6 +300,76 @@ var SpeckView = widgets.DOMWidgetView.extend({
       })
     },
 
+    setAtomsColor:function (atoms){
+      for (const atom in atoms){
+        if (atom in this.view.elements){
+          this.view.elements[atom].color = atoms[atom];
+          this.needReset = true;
+        }
+      }
+      if (this.needReset){
+        this.renderer.setSystem(this.system, this.view);
+      }
+    },
+
+
+    stickball: function() {
+        this.needReset = true;
+        this.view.atomScale = 0.24;
+        this.view.relativeAtomScale = 0.64;
+        this.view.bondScale = 0.5;
+        this.view.bonds = true;
+        this.view.bondThreshold = 1.2;
+        this.view.brightness = 0.5,
+        this.view.outline = 0.0;
+        this.view.spf = 32;
+        this.view.bondShade = 0.5;
+        this.view.atomShade = 0.5;
+        this.view.dofStrength = 0.0;
+        this.view.dofPosition = 0.5;
+        this.view.ao = 0.75;
+        this.view.spf = 32;
+        this.view.outline = 0;
+    },
+
+    toon: function() {
+        this.stickball()
+        this.view.atomScale = 0.1;
+        this.view.relativeAtomScale = 0;
+        this.view.bondScale = 1;
+        this.view.bonds = true;
+        this.view.bondThreshold=  1.2;
+    },
+
+    fill: function() {
+        this.stickball()
+        this.view.atomScale = 0.6;
+        this.view.relativeAtomScale = 1.0;
+        this.view.bonds = false;
+    },
+
+    licorice:  function() {
+        this.stickball()
+        this.view.ao = 0;
+        this.view.spf = 0;
+        this.view.outline = 1;
+        this.view.bonds = true;
+    },
+
+    updateModel:  function() {
+      this.model.set('bonds', this.view.bonds);
+      this.model.set('atomScale', this.view.atomScale);
+      this.model.set('relativeAtomScale', this.view.relativeAtomScale);
+      this.model.set('bondScale', this.view.bondScale);
+      this.model.set('brightness', this.view.brightness);
+      this.model.set('outline', this.view.outline);
+      this.model.set('spf', this.view.spf);
+      this.model.set('bondShade', this.view.bondShade);
+      this.model.set('atomShade', this.view.atomShade);
+      this.model.set('dofStrength', this.view.dofStrength);
+      this.model.set('dofPosition', this.view.dofPosition);
+      this.model.save_changes();
+    },
     loadStructure: function() {
         let self = this;
         self.system = undefined;
@@ -219,7 +391,7 @@ var SpeckView = widgets.DOMWidgetView.extend({
       let self = this;
       if (self.system){
         speckSystem.center(self.system);
-        speckSystem.calculateBonds(self.system);
+        speckSystem.calculateBonds(self.system, self.view);
         this.renderer.setSystem(self.system, self.view);
         speckView.center(self.view, self.system);
         self.needReset = true;
@@ -301,12 +473,16 @@ var SpeckView = widgets.DOMWidgetView.extend({
     },
 
     handleCustomMessage: function(message) {
-      if (message == "frontview"){
-        this.frontview();
-      } else if (message == "topview"){
-          this.topview();
-      } else if (message == "rightview"){
-          this.rightview();
+      if ("do" in message){
+        if (message.do == "frontView"){
+          this.frontview();
+        } else if (message.do == "topView"){
+            this.topview();
+        } else if (message.do == "rightView"){
+            this.rightview();
+        } else if (message.do == "changeAtomsColor"){
+            this.setAtomsColor(message.atoms);
+        }
       }
     },
 
