@@ -31,8 +31,8 @@ class Speck(widgets.DOMWidget):
 
     data = Unicode('').tag(sync=True)
     bonds = Bool(True).tag(sync=True)
-    atomScale = Float(0.35).tag(sync=True)
-    relativeAtomScale = Float(1.0).tag(sync=True)
+    atomScale = Float(0.24).tag(sync=True)
+    relativeAtomScale = Float(0.64).tag(sync=True)
     bondScale = Float(0.5).tag(sync=True)
     brightness = Float(0.5).tag(sync=True)
     outline = Float(0.0).tag(sync=True)
@@ -57,3 +57,9 @@ class Speck(widgets.DOMWidget):
 
     def setAtomsColor(self, atoms):
         self.send({"do":"changeAtomsColor","atoms":atoms})
+
+    def setColorSchema(self, schema):
+        self.send({"do":"changeColorSchema","schema":schema})
+
+    def switchColorSchema(self):
+        self.send({"do":"changeColorSchema"})

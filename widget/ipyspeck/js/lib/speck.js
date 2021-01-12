@@ -5,6 +5,7 @@ const speckSystem = require('./system.js');
 const speckView = require('./view.js');
 const speckInteractions = require('./interactions.js');
 const speckPresetViews = require('./presets.js');
+const speckColors = require('./colors.js');
 
 
 
@@ -75,21 +76,32 @@ var SpeckView = widgets.DOMWidgetView.extend({
 
       this.renderer = null;
       this.needReset = false;
+      this.current_schema="speck";
+
       let self = this;
+
       self.container = document.createElement('div')
       self.canvas = document.createElement('canvas')
       self.canvas.addEventListener('dblclick', function(){
         self.center();
       });
-      self.sidebar = document.createElement('div')
-      self.sidebar.style.top = "0px"
-      self.sidebar.style.height = "20px"
-      self.sidebar.style.right = "0px"
-      self.sidebar.style.position = "absolute"
-      self.sidebar.style.background = "rgba(255,255,255,0.5)"
-      self.sidebar.style.flexDirection = "row";
-      self.sidebar.style.alignContent = "flex-end";
-      self.sidebar.style.display = "flex";
+      self.topbar = document.createElement('div')
+      self.topbar.style.top = "0px"
+      self.topbar.style.height = "20px"
+      self.topbar.style.right = "0px"
+      self.topbar.style.position = "absolute"
+      self.topbar.style.background = "rgba(255,255,255,0.5)"
+      self.topbar.style.flexDirection = "row";
+      self.topbar.style.alignContent = "flex-end";
+      self.topbar.style.display = "flex";
+
+
+      self.infoc = document.createElement("div");
+      self.infoc.style.fontSize = "10px";
+      self.infoc.style.color = "#AAA";
+      self.infoc.innerHTML = 'Colors: ' + self.current_schema;
+
+
 
       self.autoscale = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       self.autoscale.setAttribute('width', "16");
@@ -109,6 +121,45 @@ var SpeckView = widgets.DOMWidgetView.extend({
       self.autoscalec = document.createElement("div");
       self.autoscalec.style.padding="2px"
       self.autoscalec.append(self.autoscale)
+
+      self.camera = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.camera.setAttribute('width', "16");
+      self.camera.setAttribute('height', "16");
+      self.camera.setAttribute('viewBox', "0 0 16 16");
+      self.camera.setAttribute('fill', "#AAAAAA");
+      self.camera.addEventListener('mouseover', function(){
+        self.camera.setAttribute('fill', "#666666");
+      });
+      self.camera.addEventListener('mouseout', function(){
+        self.camera.setAttribute('fill', "#AAAAAA");
+      });
+      self.camera.innerHTML = '<g><path d="M 10.421875 8.773438 C 10.421875 10.09375 9.355469 11.160156 8.039062 11.160156 C 6.71875 11.160156 5.652344 10.09375 5.652344 8.773438 C 5.652344 7.457031 6.71875 6.390625 8.039062 6.390625 C 9.355469 6.390625 10.421875 7.457031 10.421875 8.773438 Z M 10.421875 8.773438"></path><path d="M 14.746094 4.007812 L 12.484375 4.007812 C 12.289062 4.007812 12.117188 3.929688 11.992188 3.785156 C 10.816406 2.457031 10.371094 2.015625 9.882812 2.015625 L 6.320312 2.015625 C 5.828125 2.015625 5.359375 2.460938 4.15625 3.785156 C 4.035156 3.929688 3.835938 4.007812 3.664062 4.007812 L 3.492188 4.007812 L 3.492188 3.664062 C 3.492188 3.492188 3.347656 3.320312 3.148438 3.320312 L 2.066406 3.320312 C 1.894531 3.320312 1.722656 3.464844 1.722656 3.664062 L 1.722656 4.007812 L 1.398438 4.007812 C 0.664062 4.007812 0 4.546875 0 5.285156 L 0 12.609375 C 0 13.347656 0.664062 13.984375 1.398438 13.984375 L 14.722656 13.984375 C 15.460938 13.984375 16 13.320312 16 12.609375 L 16 5.257812 C 16.023438 4.546875 15.484375 4.007812 14.746094 4.007812 Z M 8.210938 12.335938 C 6.121094 12.433594 4.398438 10.714844 4.496094 8.625 C 4.570312 6.804688 6.042969 5.332031 7.886719 5.234375 C 9.976562 5.136719 11.695312 6.855469 11.601562 8.945312 C 11.503906 10.765625 10.027344 12.242188 8.210938 12.335938 Z M 12.042969 6.414062 C 11.75 6.414062 11.503906 6.167969 11.503906 5.875 C 11.503906 5.582031 11.75 5.335938 12.042969 5.335938 C 12.335938 5.335938 12.585938 5.582031 12.585938 5.875 C 12.585938 6.167969 12.335938 6.414062 12.042969 6.414062 Z M 12.042969 6.414062 "></path></g>';
+      self.camera.addEventListener('click', function(){
+        self.saveSnapshot();
+      });
+      self.camerac = document.createElement("div");
+      self.camerac.style.padding="2px"
+      self.camerac.append(self.camera)
+
+      self.palette = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      self.palette.setAttribute('width', "16");
+      self.palette.setAttribute('height', "16");
+      self.palette.setAttribute('viewBox', "0 0 16 16");
+      self.palette.setAttribute('fill', "#AAAAAA");
+      self.palette.addEventListener('mouseover', function(){
+        self.palette.setAttribute('fill', "#666666");
+      });
+      self.palette.addEventListener('mouseout', function(){
+        self.palette.setAttribute('fill', "#AAAAAA");
+      });
+      self.palette.innerHTML = '<g><path d="M 7.984375 0.015625 C 3.601562 0.015625 0 3.617188 0 8 C 0 12.382812 3.601562 15.984375 7.984375 15.984375 C 8.742188 15.984375 9.320312 15.402344 9.320312 14.648438 C 9.320312 14.300781 9.175781 13.980469 8.96875 13.75 C 8.738281 13.519531 8.617188 13.226562 8.617188 12.851562 C 8.617188 12.09375 9.199219 11.515625 9.953125 11.515625 L 11.550781 11.515625 C 13.992188 11.515625 15.992188 9.511719 15.992188 7.070312 C 15.972656 3.210938 12.367188 0.015625 7.984375 0.015625 Z M 3.105469 8 C 2.351562 8 1.773438 7.417969 1.773438 6.664062 C 1.773438 5.914062 2.351562 5.332031 3.105469 5.332031 C 3.859375 5.332031 4.441406 5.914062 4.441406 6.664062 C 4.441406 7.417969 3.863281 8 3.105469 8 Z M 5.777344 4.457031 C 5.023438 4.457031 4.445312 3.875 4.445312 3.121094 C 4.445312 2.367188 5.023438 1.789062 5.777344 1.789062 C 6.53125 1.789062 7.113281 2.367188 7.113281 3.121094 C 7.085938 3.878906 6.535156 4.457031 5.777344 4.457031 Z M 10.195312 4.457031 C 9.4375 4.457031 8.859375 3.875 8.859375 3.121094 C 8.859375 2.367188 9.441406 1.789062 10.195312 1.789062 C 10.945312 1.789062 11.527344 2.367188 11.527344 3.121094 C 11.527344 3.878906 10.945312 4.457031 10.195312 4.457031 Z M 12.863281 8 C 12.105469 8 11.527344 7.417969 11.527344 6.664062 C 11.527344 5.914062 12.109375 5.332031 12.863281 5.332031 C 13.617188 5.332031 14.195312 5.914062 14.195312 6.664062 C 14.195312 7.417969 13.617188 8 12.863281 8 Z M 12.863281 8"/></g>';
+      self.palette.addEventListener('click', function(){
+        self.switchColorSchema();
+        self.infoc.innerHTML = 'Colors: ' + self.current_schema;
+      });
+      self.palettec = document.createElement("div");
+      self.palettec.style.padding="2px"
+      self.palettec.append(self.palette)
 
       self.front = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       self.front.setAttribute('width', "16");
@@ -272,17 +323,23 @@ var SpeckView = widgets.DOMWidgetView.extend({
 
       self.container.append(self.canvas)
 
-      self.sidebar.append(self.stic)
-      self.sidebar.append(self.tooc)
-      self.sidebar.append(self.licc)
-      self.sidebar.append(self.filc)
+      self.topbar.append(self.infoc)
 
-      self.sidebar.append(self.frontc)
-      self.sidebar.append(self.topc)
-      self.sidebar.append(self.rightc)
-      self.sidebar.append(self.autoscalec)
+      self.topbar.append(self.stic)
+      self.topbar.append(self.tooc)
+      self.topbar.append(self.licc)
+      self.topbar.append(self.filc)
 
-      self.el.append(self.sidebar)
+      self.topbar.append(self.frontc)
+      self.topbar.append(self.topc)
+      self.topbar.append(self.rightc)
+
+      self.topbar.append(self.palettec)
+      self.topbar.append(self.camerac)
+
+      self.topbar.append(self.autoscalec)
+
+      self.el.append(self.topbar)
       self.el.append(self.container)
       self.el.style.width="100%"
       self.el.style.height="100%"
@@ -300,6 +357,16 @@ var SpeckView = widgets.DOMWidgetView.extend({
       })
     },
 
+    saveSnapshot: function(){
+      this.renderer.render(this.view);
+      var imgURL = this.canvas.toDataURL("image/png");
+      var a = document.createElement('a');
+      a.href = imgURL;
+      a.download = "speck.png";
+      document.body.appendChild(a);
+      a.click();
+    },
+
     setAtomsColor:function (atoms){
       for (const atom in atoms){
         if (atom in this.view.elements){
@@ -313,6 +380,29 @@ var SpeckView = widgets.DOMWidgetView.extend({
       }
     },
 
+    setColorSchema:function( schema ){
+      if (schema in speckColors){
+        this.current_schema = schema;
+        this.setAtomsColor(speckColors[schema]);
+      }
+    },
+
+    switchColorSchema:function(){
+      let update_color = false;
+      let first_color = undefined;
+      for (color in speckColors){
+        if (first_color == undefined)
+          first_color = color;
+        if (update_color) {
+          this.setColorSchema(color);
+          return;
+        }
+        if (color == this.current_schema){
+          update_color = true;
+        }
+      }
+      this.setColorSchema(first_color);
+    },
 
     stickball: function() {
         this.needReset = true;
@@ -483,6 +573,10 @@ var SpeckView = widgets.DOMWidgetView.extend({
             this.rightview();
         } else if (message.do == "changeAtomsColor"){
             this.setAtomsColor(message.atoms);
+        } else if (message.do == "changeColorSchema"){
+            this.setColorSchema(message.schema)
+        } else if (message.do == "switchColorSchema"){
+            this.switchColorSchema();
         }
       }
     },
@@ -528,15 +622,6 @@ var SpeckView = widgets.DOMWidgetView.extend({
            case "resize":
              self.reflow();
              self.center();
-             break;
-           case "topview":
-             self.topview();
-             break;
-           case "frontview":
-             self.frontview();
-             break;
-           case "rightview":
-             self.rightview();
              break;
        }
      },

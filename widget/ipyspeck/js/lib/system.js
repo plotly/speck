@@ -13,7 +13,6 @@ var newSystem = module.exports.new = function() {
     }
 };
 
-
 var calculateBonds = module.exports.calculateBonds = function(s, v) {
     var elems = elements;
     if (v != undefined)
