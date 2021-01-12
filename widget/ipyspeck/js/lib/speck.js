@@ -308,6 +308,7 @@ var SpeckView = widgets.DOMWidgetView.extend({
         }
       }
       if (this.needReset){
+        speckSystem.calculateBonds(this.system, this.view);
         this.renderer.setSystem(this.system, this.view);
       }
     },
