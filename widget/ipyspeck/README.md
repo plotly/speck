@@ -113,3 +113,15 @@ When actively developing your extension, build Jupyter Lab with the command:
 This takes a minute or so to get started, but then automatically rebuilds JupyterLab when your javascript changes.
 
 Note on first `jupyter lab --watch`, you may need to touch a file to get Jupyter Lab to open.
+
+## Gallery
+
+<img src="https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/loop.gif" width=500px/>
+
+<img src="https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/img1.png" width=500px/>
+
+<img src="https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/img2.png" width=500px/>
+
+<img src="https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/img3.png" width=500px/>
+
+<img src="https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/img4.png" width=500px/>
