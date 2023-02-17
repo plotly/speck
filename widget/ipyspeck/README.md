@@ -7,7 +7,7 @@
         <td>Latest Release</td>
         <td>
             <a href="https://pypi.org/project/ipyspeck/"/>
-            <img src="https://static.pepy.tech/badge/ipyspeck"/>
+            <img src="https://badge.fury.io/py/ipyspeck.svg"/>
         </td>
     </tr>
     <tr>
