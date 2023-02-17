@@ -15,6 +15,7 @@
         <td>
             <a href="https://pepy.tech/project/ipyspeck"/>
             <img src="https://static.pepy.tech/badge/ipyspeck/month"/>
+            <img src="https://static.pepy.tech/badge/ipyspeck"/>
         </td>
     </tr>
 </table>
