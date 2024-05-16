@@ -87,6 +87,33 @@ ipyspeck.speck.Speck(data=co2)
 
 ![co2](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/co2.png)
 
+ipyspeck also includes a wrapper of speck to work with streamlit
+
+```bash
+import streamlit as st
+from ipyspeck import stspeck
+
+H2O='''3
+Water molecule
+O          0.00000        0.00000        0.11779
+H          0.00000        0.75545       -0.47116
+H          0.00000       -0.75545       -0.47116'''
+
+with st.sidebar:
+    ao = st.selectbox("Select ao",[0, 0.1, 0.2 ,0.5, 0.8,1])
+    bonds = st.selectbox("Select bonds",[True,False])
+
+res = stspeck.Speck(
+  data=H2O,
+  ao=ao,
+  width="800px",
+  height="600px"
+)
+```
+
+![co2](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/st.png)
+
+
 ## Installation
 
 To install use pip:
