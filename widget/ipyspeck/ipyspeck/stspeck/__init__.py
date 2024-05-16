@@ -100,7 +100,9 @@ try :
             bondShade=kwargs.get('bondShade', 0.5),
             atomShade=kwargs.get('atomShade', 0.5),
             dofStrength=kwargs.get('dofStrength', 0.0),
-            dofPosition=kwargs.get('dofPosition', 0.5),
+            dofPosition=kwargs.get('dofPosition', 0.5),            
+            ao=kwargs.get('ao', 0.75),
+            aoRes=kwargs.get('aoRes', 256),
             width=kwargs.get('width', "100%"),
             height=kwargs.get('height', "200px"),
             key=kwargs.get('key', None)

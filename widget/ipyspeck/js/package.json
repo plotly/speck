@@ -1,6 +1,6 @@
 {
   "name": "ipyspeck",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Speck Jupyter Widget",
   "author": "Daniel Mejia (Denphi)",
   "main": "lib/index.js",

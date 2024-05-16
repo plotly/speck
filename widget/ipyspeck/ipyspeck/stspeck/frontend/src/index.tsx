@@ -39,7 +39,7 @@ topbar.style.top = "0px"
 topbar.style.height = "30px"
 topbar.style.right = "0px"
 topbar.style.position = "absolute"
-topbar.style.background = "rgba(255,255,255,0.5)"
+topbar.style.background = "rgba(255,255,255,0.9)"
 topbar.style.flexDirection = "row";
 topbar.style.alignContent = "flex-end";
 topbar.style.display = "flex";
@@ -105,7 +105,7 @@ palette.addEventListener('mouseout', function () {
 palette.innerHTML = '<g><path d="M 7.984375 0.015625 C 3.601562 0.015625 0 3.617188 0 8 C 0 12.382812 3.601562 15.984375 7.984375 15.984375 C 8.742188 15.984375 9.320312 15.402344 9.320312 14.648438 C 9.320312 14.300781 9.175781 13.980469 8.96875 13.75 C 8.738281 13.519531 8.617188 13.226562 8.617188 12.851562 C 8.617188 12.09375 9.199219 11.515625 9.953125 11.515625 L 11.550781 11.515625 C 13.992188 11.515625 15.992188 9.511719 15.992188 7.070312 C 15.972656 3.210938 12.367188 0.015625 7.984375 0.015625 Z M 3.105469 8 C 2.351562 8 1.773438 7.417969 1.773438 6.664062 C 1.773438 5.914062 2.351562 5.332031 3.105469 5.332031 C 3.859375 5.332031 4.441406 5.914062 4.441406 6.664062 C 4.441406 7.417969 3.863281 8 3.105469 8 Z M 5.777344 4.457031 C 5.023438 4.457031 4.445312 3.875 4.445312 3.121094 C 4.445312 2.367188 5.023438 1.789062 5.777344 1.789062 C 6.53125 1.789062 7.113281 2.367188 7.113281 3.121094 C 7.085938 3.878906 6.535156 4.457031 5.777344 4.457031 Z M 10.195312 4.457031 C 9.4375 4.457031 8.859375 3.875 8.859375 3.121094 C 8.859375 2.367188 9.441406 1.789062 10.195312 1.789062 C 10.945312 1.789062 11.527344 2.367188 11.527344 3.121094 C 11.527344 3.878906 10.945312 4.457031 10.195312 4.457031 Z M 12.863281 8 C 12.105469 8 11.527344 7.417969 11.527344 6.664062 C 11.527344 5.914062 12.109375 5.332031 12.863281 5.332031 C 13.617188 5.332031 14.195312 5.914062 14.195312 6.664062 C 14.195312 7.417969 13.617188 8 12.863281 8 Z M 12.863281 8"/></g>';
 palette.addEventListener('click', function () {
     switchColorSchema();
-    infoc.innerHTML = 'Colors: ' + current_schema;
+    infoc.innerHTML = 'Colors: <BR>' + current_schema;
 });
 let palettec = document.createElement("div");
 palettec.style.padding = "2px"
@@ -342,7 +342,7 @@ let switchColorSchema = function () {
     let update_color = false;
     let first_color = "";
     for (let color in speckColors) {
-        if (first_color === undefined)
+        if (first_color === "")
             first_color = color;
         if (update_color) {
             setColorSchema(color);
@@ -410,7 +410,9 @@ let updateModel = function () {
         'bondShade': view.bondShade,
         'atomShade': view.atomShade,
         'dofStrength': view.dofStrength,
-        'dofPosition': view.dofPosition
+        'dofPosition': view.dofPosition,
+        'ao': view.ao,
+        'aoRes': view.aoRes
     })
 }
 
@@ -522,6 +524,7 @@ let loop = function () {
 function onRender(event: Event): void {
     // Get the RenderData from the event
     const data = (event as CustomEvent<RenderData>).detail
+    console.log(data.args);
     document.body.style.width = data.args["width"]
     document.body.style.height = data.args["height"]
     view.bonds = data.args['bonds'];
@@ -535,6 +538,8 @@ function onRender(event: Event): void {
     view.atomShade = data.args['atomShade'];
     view.dofStrength = data.args['dofStrength'];
     view.dofPosition = data.args['dofPosition'];
+    view.ao = data.args['ao'];
+    view.aoRes = data.args['aoRes'];
     reflow()
     loop();
     loadStructure(data.args["data"]);
