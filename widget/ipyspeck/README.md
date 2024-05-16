@@ -87,7 +87,7 @@ ipyspeck.speck.Speck(data=co2)
 
 ![co2](https://raw.githubusercontent.com/denphi/speck/master/widget/ipyspeck/img/co2.png)
 
-ipyspeck also includes a wrapper of speck to work with streamlit
+ipyspeck>=0.6 also includes speck wrapper to work with streamlit
 
 ```bash
 import streamlit as st
@@ -130,6 +130,9 @@ For a development installation (requires npm),
     $ git clone https://github.com//denphi//speck.git
     $ cd speck/widget/ipyspeck
     $ pip install -e .
+
+following is only required for old versions,
+
     $ jupyter nbextension install --py --symlink --sys-prefix ipyspeck
     $ jupyter nbextension enable --py --sys-prefix ipyspeck
     $ jupyter labextension install js
